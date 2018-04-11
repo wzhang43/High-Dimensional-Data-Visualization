@@ -5,40 +5,12 @@
 
 ### Load required packages and source graphing function
 library(mclust)
-source("Code/functions.R")
+source("Code/plot functions.R")
 
 ### Import data and group labels
 setwd("/Users/wzhang/Project 2")
 y.fil = readRDS("Data/leaf_path12_nonunique.rds")
 path.fil = readRDS("Data/leaf_path12_label_nonunique.rds")
-
-
-
-
-
-
-
-####### Plot mclustDA fit on PCs #######
-
-### Run PCA on combined data
-out = prcomp(y.fil/log(2),center=T)
-pcvar = (out$sdev)^2
-
-## Percent of variation explained
-sum(pcvar[1:2])/sum(pcvar) # 0.6649475
-sum(pcvar[1:3])/sum(pcvar) # 0.7819958
-sum(pcvar[1:4])/sum(pcvar) # 0.8560355
-
-## PCs used for classification
-pc.top2 = out$x[,1:2]
-pc.top3 = out$x[,1:3]
-pc.top4 = out$x[,1:4]
-
-dat = pc.top2
-out = MclustDA(dat,class=path.fil,G=1:2)
-png("PeerJ/Graphs/pc2.png",height=10,width=10,units="in",res=200)
-scatter.mclustda(dat, out, scale=log(2))
-dev.off()
 
 
 
@@ -162,7 +134,7 @@ outlier.et = names(c(sort(et.199[,2],decreasing=F)[1],sort(et.199[,2],decreasing
 outlier.name = union(outlier.ja, outlier.et)
 outlier.199 = match(outlier.name,row.names(y.fil))
 
-png("PeerJ/Graphs/log2 scale/example1_outliers.png",
+png("Graphs/Figure_4.png",
   height=10,width=10,units="in",res=180)
 mod.199 = MclustDA(data.199/log(2),class=path.fil,G=1:2)
 plot.outlier(data.199,mod.199,outlier.199, scale=log(2))
@@ -180,7 +152,7 @@ outlier.name = c(names(sort(ja.93[,1],decreasing=T)[1:2]),
   names(sort(ja.93[,1])[1]), names(sort(et.93[,2])[1]))
 outlier.93 = match(outlier.name,row.names(y.fil))
 
-png("PeerJ/Graphs/log2 scale/example2_outliers.png",
+png("Graphs/Figure_5.png",
   height=10,width=10,units="in",res=180)
 mod.93 = MclustDA(data.93/log(2),class=path.fil,G=1:2)
 plot.outlier(data.93,mod.93,outlier.93, scale=log(2))
@@ -202,7 +174,7 @@ dev.off()
 #### Graph scatterplot for top ranked features ####
 ### 4-subset scatterplots ###
 n4 = combn(23,4)
-top5_4g = readRDS("Results/4g_RCV_top5.rds")
+top5_4g = readRDS("Results/Summary/4g_RCV_top5.rds")
 for(i in 1:5){
   topInd = top5_4g[[i]]$index
   for(j in 1:5){
@@ -219,7 +191,7 @@ for(i in 1:5){
 
 ### 3-subset scatterplots ###
 n3 = combn(23,3)
-top5_3g = readRDS("Results/3g_RCV_top5.rds")
+top5_3g = readRDS("Results/Summary/3g_RCV_top5.rds")
 for(i in 1:5){
   topInd = top5_3g[[i]]$index
   for(j in 1:5){
@@ -235,7 +207,7 @@ for(i in 1:5){
 
 ### 3-subset scatterplots ###
 n2 = combn(23,2)
-top5_2g = readRDS("Results/2g_RCV_top5.rds")
+top5_2g = readRDS("Results/Summary/2g_RCV_top5.rds")
 for(i in 1:5){
   topInd = top5_2g[[i]]$index
   for(j in 1:5){

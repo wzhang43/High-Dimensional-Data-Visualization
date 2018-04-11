@@ -155,6 +155,7 @@ scatter.mclustda = function(data, out, scale){
 ### Plot scatterplots with specified feature subset "sset"
 plot_minmax = function(sset){
   y.fil = readRDS("Data/leaf_path12_nonunique.rds")
+  path.fil = readRDS("Data/leaf_path12_label_nonunique.rds")
   expLabel = colnames(y.fil)
   temp_2g = combn(23,2)
   combNames_2g = character(length=ncol(temp_2g))
@@ -165,7 +166,7 @@ plot_minmax = function(sset){
   n2 = combn(23,2)
   dat = y.fil[,n2[,index]]/log(2)
   out = MclustDA(dat,class=path.fil,G=1:2)
-  fileName = paste("PeerJ/Graphs/log2 scale/2groups/",index,"_minmax.png",
+  fileName = paste("PeerJ/FisherLDA/",index,".png",
     sep="")
   png(fileName,height=10,width=10,units="in",res=200)
   scatter.mclustda(dat, out, scale=log(2))
@@ -242,4 +243,31 @@ plot.lda = function(sset, model="MclustDA", filename){
   dev.off()
 }
 
+
+
+plot_anypair = function(sset, fname){
+  y.fil = readRDS("Data/leaf_path12_nonunique.rds")
+  path.fil = readRDS("Data/leaf_path12_label_nonunique.rds")
+  expLabel = colnames(y.fil)
+  temp_2g = combn(23,2)
+  combNames_2g = character(length=ncol(temp_2g))
+  for(i in 1:length(combNames_2g)){
+    combNames_2g[i] = paste("[",paste(expLabel[temp_2g[,i]],collapse=", "),"]",sep="")
+  }
+  index = match(sset, combNames_2g)
+  n2 = combn(23,2)
+  dat = y.fil[,n2[,index]]/log(2)
+  out = MclustDA(dat,class=path.fil,G=1:2)
+
+  colors = c("magenta","darkcyan")
+  symbols = c(3,2)
+  dataNames = colnames(dat)
+  mod = out$models
+
+  png(fname,height=10,width=10,units="in",res=200)
+  plotellipse(dat, 1:2, 2, symbols, colors, models=mod, width=2, size=1.3, scale=log(2))
+  legend("bottomright",legend=c("ET","JA"),col=c("magenta", "darkcyan"),
+          pch=c(3,2),cex=1.2)
+  dev.off()
+}
 
