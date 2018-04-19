@@ -244,7 +244,7 @@ plot.lda = function(sset, model="MclustDA", filename){
 }
 
 
-
+### Plot any pair of features with fitted normal components overlay
 plot_anypair = function(sset, fname){
   y.fil = readRDS("Data/leaf_path12_nonunique.rds")
   path.fil = readRDS("Data/leaf_path12_label_nonunique.rds")

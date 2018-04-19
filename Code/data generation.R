@@ -1,6 +1,6 @@
 
 
-##---------- Step 0: Fit NB regression model to read counts ------------##
+##---------- Step 0: Fit NB regression model to normalized read counts ------------##
 
 rm(list=ls());
 ## Load all data

@@ -5,10 +5,10 @@
 
 ### Load required packages and source graphing function
 library(mclust)
-source("Code/plot functions.R")
+source("Code/functions.R")
 
 ### Import data and group labels
-setwd("/Users/wzhang/Project 2")
+setwd("/Users/wzhang/Project 2/PeerJ")
 y.fil = readRDS("Data/leaf_path12_nonunique.rds")
 path.fil = readRDS("Data/leaf_path12_label_nonunique.rds")
 
@@ -20,8 +20,13 @@ path.fil = readRDS("Data/leaf_path12_label_nonunique.rds")
 ##################################################################
 
 ### Plot scatterplot with max and min separation
-plot_minmax("[4-7, 4-8]") # separation = 0.7082
-plot_minmax("[2-1, 4-5]") # separation = 0.5355
+
+png("Fig1.png",height=10,width=18.7,units="in",res=200)
+par(mfrow=c(1,2))
+plot_anypair_nosave("[4-7, 4-8]","(a)") # separation = 0.7082
+plot_anypair_nosave("[2-1, 4-5]","(b)") # separation = 0.5355
+par(mfrow=c(1,1))
+dev.off()
 
 ##################################################################
 #####------------------- End of Figure 1 --------------------#####
@@ -68,19 +73,19 @@ ltype = c(3,rep(1,2),3,1,3,rep(1,7),3,rep(1,8))
 s = seq(n_leaf-1)
 
 ### Make lineplots
-png("lineplot.png",width=17,height=7,units="in",res=300)
+png("Fig2.png",width=17,height=7,units="in",res=300)
 par(mfrow=c(1,2))
 plot(1:n_leaf, dat.eth[1,], type="p",pch=2,cex=0.5,ylim=c(ylow,yup),ylab="log2 fold change",
-  xlab="contrast ID",xaxt="n",lwd=0.7,cex.lab=1.2,cex.axis=1.2,cex.main=1.2,main="Ethylene Pathway Genes")
+  xlab="contrast ID",xaxt="n",lwd=0.7,cex.lab=1.2,cex.axis=1.2,cex.main=1.2,main="(a) Ethylene Pathway Genes")
 segments(s, dat.eth[1,s], s+1, dat.eth[1,s+1], col=color[s], lty=ltype[s])
 for(k in 2:nrow(dat.eth)){
-  lines(1:n_leaf, dat.jas[k,], type="p",pch=2,cex=0.5)
+  lines(1:n_leaf, dat.eth[k,], type="p",pch=2,cex=0.5)
   segments(s, dat.eth[k,s], s+1, dat.eth[k,s+1], col=color[s], lty=ltype[s])
 }
 axis(1,at=1:n_leaf,labels=trtID[1:n_leaf])
   
 plot(1:n_leaf, dat.jas[1,], type="p",pch=2,cex=0.5,ylim=c(ylow,yup),ylab="log2 fold change",
-  xlab="contrast ID",xaxt="n",lwd=0.7,cex.lab=1.2,cex.axis=1.2,cex.main=1.2,main="Jasmonate Pathway Genes")
+  xlab="contrast ID",xaxt="n",lwd=0.7,cex.lab=1.2,cex.axis=1.2,cex.main=1.2,main="(b) Jasmonate Pathway Genes")
 segments(s, dat.jas[1,s], s+1, dat.jas[1,s+1], col=color[s], lty=ltype[s])
 for(k in 2:nrow(dat.jas)){
   lines(1:n_leaf, dat.jas[k,], type="p",pch=2,cex=0.5)
@@ -104,9 +109,12 @@ dev.off()
 #####-------------------- Figure 3 --------------------------#####
 ##################################################################
 
-plot.lda("[3-1, 4-2]", filename="Figure_3a.png")
-plot.lda("[3-1, 4-2]", "LDA", "Figure_3b.png")
-
+png("Fig3.png",height=7,width=15,units="in",res=300)
+par(mfrow=c(1,2))
+plot.lda("[3-1, 4-2]", title="(a)")
+plot.lda("[3-1, 4-2]", "LDA", title="(b)")
+par(mfrow=c(1,1))
+dev.off()
 
 ##################################################################
 #####------------------- End of Figure 3 --------------------#####
@@ -182,22 +190,7 @@ plot_anypair("[3-1, 5-5]", "31_55.png")
 
 
 ##################################################################
-#####----------------- Figures 8 and 9 ----------------------#####
-##################################################################
-
-## See "sample_size_simulations.R"
-
-##################################################################
-#####------------- End of Figure 8 and 9 --------------------#####
-##################################################################
-
-
-
-
-
-
-##################################################################
-#####------------------ Figures 10 ~ 17 ---------------------#####
+#####------------------ Figures 8 ~ 15 ---------------------#####
 ##################################################################
 
 #### Graph scatterplot for top ranked features ####
@@ -251,9 +244,20 @@ for(i in 1:5){
 }
 
 ##################################################################
-#####-------------- End of Figures 10 ~ 17 ------------------#####
+#####-------------- End of Figures 8 ~ 15 -------------------#####
 ##################################################################
 
+
+
+##################################################################
+#####----------------- Figures 16 and 17 --------------------#####
+##################################################################
+
+## See "sample_size_simulations.R"
+
+##################################################################
+#####------------- End of Figure 16 and 17 ------------------#####
+##################################################################
 
 
 
